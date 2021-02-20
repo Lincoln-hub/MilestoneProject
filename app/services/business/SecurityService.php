@@ -9,6 +9,7 @@ class SecurityService
 {
     private $verifyCred;
     private $reg;
+    private $users;
     
     
     public function login(User $credentials)
@@ -26,4 +27,28 @@ class SecurityService
         
         return $this->reg->Register($user);
     }
+    
+    public function findAllUsers()
+    {
+        $this->users = new SecurityDAO();
+        
+        return $this->users->findAllUsers();
+    }
+    
+    public function deleteUser($id)
+    {
+        $this->users = new SecurityDAO();
+        
+        return $this->users->deleteUser($id);
+    }
+    
+    public function suspendUser($id)
+    {
+        $this->users = new SecurityDAO();
+        
+        return $this->users->suspendUser($id);
+    }
+    
+    
+    
 }

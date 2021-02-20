@@ -34,3 +34,10 @@ Route::get('/register', function ()
 Route::post('Register', 'UserController@index');
 
 Route::post('login', 'UserController@login');
+
+//Admin routes
+Route::get('users','AdminController@ManageUsers');
+
+Route::post('deleteUser','AdminController@deleteUser');
+
+Route::post('suspendUser','AdminController@suspendUser');
