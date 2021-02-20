@@ -11,7 +11,7 @@
                             <tr>
                                 
                                 <th scope="col" class="col-3">Name</th>
-                               <th scope="col" class="col-3">View Profile</th>
+                               
                                 <th scope="col" class="col-3">Suspend</th>
                                  <th scope="col" class="col-3">Delete</th>
                             </tr>
@@ -23,12 +23,6 @@
                             <tr>
                             
                                 <td class="col-3">{{ $u['FIRSTNAME']}}</td>
-                                
-                               <td class="col-3"><form action="userProfile" method="post">
-							<input type="hidden" name="_token" value="{{ csrf_token()}}" /> <input
-								type="hidden" name="userid" value="{{ $u['ID'] }}" />
-								 <input type="submit" class="btn btn-secondary btn-large" value="View Profile" />
-								</form></td>
                                
                                <td class="col-3"><form action="suspendUser" method="post">
 							<input type="hidden" name="_token" value="{{ csrf_token()}}" /> <input

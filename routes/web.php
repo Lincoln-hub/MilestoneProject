@@ -41,3 +41,6 @@ Route::get('users','AdminController@ManageUsers');
 Route::post('deleteUser','AdminController@deleteUser');
 
 Route::post('suspendUser','AdminController@suspendUser');
+
+Route::get('userProfile','AdminController@viewUser');
+Route::post('userProfile','AdminController@viewUser');

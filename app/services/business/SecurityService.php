@@ -49,6 +49,13 @@ class SecurityService
         return $this->users->suspendUser($id);
     }
     
+    public function viewUser($id)
+    {
+        $this->users = new SecurityDAO();
+        
+        return $this->users->viewUser($id);
+    }
+    
     
     
 }
