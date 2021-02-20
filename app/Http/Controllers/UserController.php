@@ -39,14 +39,29 @@ class UserController extends Controller
             $credentials = new User(null, null, $request->get('user_name'), null, null, $request->get('user_password'));
             
             
-            $serviceregister = new SecurityService();
+            $servicelogin= new SecurityService();
             
             //pass the credentials to the business layer
-            $serviceregister->login($credentials);
+            $servicelogin->login($credentials);
+            
+            
+            
+            //pass the credentials to the business layer
+            $isValid = $servicelogin->login($credentials);
+            
+            //determine which view to display
+            if($isValid)
+            {
+                return view('home');
+            }
+            else
+            {
+                return view('loginFailed');
+            }
             
         } catch (Exception $e2) {
             throw $e2;
         }
-        return view('home');
+        
     }
 }
