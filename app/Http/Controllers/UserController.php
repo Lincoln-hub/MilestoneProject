@@ -10,7 +10,7 @@ use App\services\business\SecurityService;
 
 class UserController extends Controller
 {
-    //
+    
     public function index(Request $request)
     {
         // trys to validate throws validation error if failed rules
@@ -50,7 +50,7 @@ class UserController extends Controller
             //pass the credentials to the business layer
             $isValid = $servicelogin->login($credentials);
             $checkRole = $servicelogin->findRole($request->get('login_name'));
-            $role = $servicelogin->Role();
+            $role = $servicelogin->Role($request->get('login_name'));
           
             //determine which view to display
             if($isValid)
@@ -79,6 +79,8 @@ class UserController extends Controller
         }
         
     }
+    
+    //logs out the user
     public function logout(Request $request) {
         
         return redirect('/');

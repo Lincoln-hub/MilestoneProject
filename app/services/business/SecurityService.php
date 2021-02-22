@@ -11,7 +11,7 @@ class SecurityService
     private $reg;
     private $users;
     
-    
+    //login
     public function login(User $credentials)
     {
         //instantiate the data access layer
@@ -21,6 +21,7 @@ class SecurityService
         return $this->verifyCred->fingByUser($credentials);
     }
     
+    //register
     public function Register(User $user)
     {
         $this->reg = new SecurityDAO();
@@ -28,6 +29,7 @@ class SecurityService
         return $this->reg->Register($user);
     }
     
+    //find all users in the database
     public function findAllUsers()
     {
         $this->users = new SecurityDAO();
@@ -35,6 +37,7 @@ class SecurityService
         return $this->users->findAllUsers();
     }
     
+    //delte a user for the databse
     public function deleteUser($id)
     {
         $this->users = new SecurityDAO();
@@ -42,6 +45,7 @@ class SecurityService
         return $this->users->deleteUser($id);
     }
     
+    //suspend a user
     public function suspendUser($id)
     {
         $this->users = new SecurityDAO();
@@ -49,6 +53,7 @@ class SecurityService
         return $this->users->suspendUser($id);
     }
     
+    //view the user's information
     public function viewUser($id)
     {
         $this->users = new SecurityDAO();
@@ -56,6 +61,7 @@ class SecurityService
         return $this->users->viewUser($id);
     }
     
+    //find the role of the user
     public function findRole($username)
     {
         $this->users = new SecurityDAO();
@@ -63,11 +69,12 @@ class SecurityService
         return $this->users->findRole($username);
     }
     
-    public function Role()
+    //find the role of the user
+    public function Role($username)
     {
         $this->users = new SecurityDAO();
         
-        return $this->users->Role();
+        return $this->users->Role($username);
     }
     
     

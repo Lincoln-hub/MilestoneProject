@@ -24,6 +24,7 @@ class SecurityDAO
         
     }
     
+    //function to check if the user is in the database
     public function fingByUser(User $credentials)
     {
         try 
@@ -54,6 +55,7 @@ class SecurityDAO
         
     }
     
+    //function to insert the user information in the databse
     public function Register(User $user)
     {
         
@@ -93,8 +95,7 @@ class SecurityDAO
     }
     
 
-    
-    
+   //function to find all the users in the database
    public function findAllUsers()
     {
         try
@@ -109,13 +110,10 @@ class SecurityDAO
             //if the selected query returns a resultset
             $result = mysqli_query($this->conn,$this->dbQuery);
             
-            //$result->execute();
             
             if(mysqli_num_rows($result) >0)
             {
-               // $userResults = $this->dbQuery->fetchAll();
-                //mysqli_free_result($result);
-               // mysqli_close($this->conn);
+           
                 return  $result;
             }
             else
@@ -131,6 +129,7 @@ class SecurityDAO
         
     }
     
+    //function to get information of a user form the databse
     public function viewUser($id)
     {
         try
@@ -149,9 +148,7 @@ class SecurityDAO
             
             if(mysqli_num_rows($result) >0)
             {
-                // $userResults = $this->dbQuery->fetchAll();
-                //mysqli_free_result($result);
-                // mysqli_close($this->conn);
+
                 return  $result;
             }
             else
@@ -167,6 +164,7 @@ class SecurityDAO
         
     }
     
+    //function to delete a user form the database
     public function deleteUser($id)
     {
         try {
@@ -182,6 +180,7 @@ class SecurityDAO
         }
     }
     
+    //function to suspend a user, change their Role to suspended in the database
     public function suspendUser($id)
     {
         try {
@@ -202,6 +201,7 @@ class SecurityDAO
         }
     }
     
+    //function to find the role of the user
     public function findRole($username)
     {
         try
@@ -238,7 +238,8 @@ class SecurityDAO
         
     }
     
-    public function Role()
+    //function to find the role of the user
+    public function Role($username)
     {
         try
         {
@@ -248,23 +249,19 @@ class SecurityDAO
             }
             
             
-            $this->dbQuery = "SELECT * FROM user WHERE ROLE = 'Admin'";
+            $this->dbQuery = "SELECT * FROM user WHERE ROLE = 'Admin' AND USERNAME = '$username'";
+            
             //if the selected query returns a resultset
             $result = mysqli_query($this->conn,$this->dbQuery);
-            
-            //$result->execute();
-            
+
             if(mysqli_num_rows($result) >0)
             {
-                // $userResults = $this->dbQuery->fetchAll();
-                //mysqli_free_result($result);
-                // mysqli_close($this->conn);
+   
                 return  true;
             }
             else
             {
-                //mysqli_free_result($result);
-                mysqli_close($this->conn);
+
                 return false;
             }
         } catch (Exception $e)

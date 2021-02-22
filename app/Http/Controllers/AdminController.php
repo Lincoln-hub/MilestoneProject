@@ -7,12 +7,8 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    //
-    public function index()
-    {
-        return view('admin.index');
-    }
     
+    //returns the manageUsers view
     public function ManageUsers()
     {
         //request all songs from bs and dao
@@ -26,6 +22,8 @@ class AdminController extends Controller
             return view('manageUsers')->with('msg','There are no Users yet.');
         }
     }
+    
+    //return the profile view
     public function viewUser(Request $request)
     {
         //request all songs from bs and dao
@@ -44,6 +42,7 @@ class AdminController extends Controller
         }   
     }
     
+    //deletes the user and returns the Manage users page
     public function deleteUser(Request $request)
     {
         //request all songs from bs and dao
@@ -56,6 +55,7 @@ class AdminController extends Controller
       
     }
     
+    //suspends the user and returns the ManageUsers page
     public function suspendUser(Request $request)
     {
         //request all songs from bs and dao
