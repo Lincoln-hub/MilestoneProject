@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Exceptions\Exception;
 use App\Http\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\services\business\SecurityService;
 
 class UserController extends Controller
@@ -77,5 +78,14 @@ class UserController extends Controller
             throw $e2;
         }
         
+    }
+    public function logout(Request $request) {
+        
+        return redirect('/');
+    }
+    
+    public function reg(Request $request) {
+        
+        return redirect('register');
     }
 }

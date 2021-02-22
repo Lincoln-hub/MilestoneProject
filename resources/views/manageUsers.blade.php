@@ -1,6 +1,7 @@
 @extends('layouts.appmaster') @section('title','HomePage')
 
 @section('content')
+ <a href="logout">Log out</a>
 <div class="containerfull">
 	
 	

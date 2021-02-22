@@ -22,7 +22,7 @@
     <input type="password" id="user_password" name="user_password"><br><br>
     <button type="submit">Register</button>
     </form>
-    <p align="center" id="login">If you already have an account, click <a href="Login"> here</a></p>
+    <p align="center" id="login">If you already have an account, click <a href="login"> here</a></p>
 
 </div>
 @endsection
