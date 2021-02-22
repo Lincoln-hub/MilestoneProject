@@ -18,6 +18,7 @@ class AdminController extends Controller
         //request all songs from bs and dao
         $users = new SecurityService();
         $results = $users->findAllUsers();
+        
         //return results accordingly
         if ($results != null){
             return view('manageUsers')->with('users', $results);
@@ -40,9 +41,7 @@ class AdminController extends Controller
         else
         {
             return view('profile')->with('msg',"User has no profile");
-        }
-        
-        
+        }   
     }
     
     public function deleteUser(Request $request)
@@ -63,9 +62,11 @@ class AdminController extends Controller
         $users = new SecurityService();
         $id = $request->input('userid');
         $results = $users->suspendUser($id);
+        
+        $a = $this->ManageUsers($request);
         //return results accordingly
         if ($results ){
-            return view('manageUsers');
+            return $a;
         } else {
             return view('manageUsers')->with('msg',' User did not get suspended.');
         }

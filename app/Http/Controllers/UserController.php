@@ -16,7 +16,7 @@ class UserController extends Controller
      
         
          try {
-             $credentials = new User($request->get('first_name'), $request->get('last_name'), $request->get('user_name'), $request->get('user_age'), $request->get('user_email'), $request->get('user_password'));
+             $credentials = new User($request->get('first_name'), $request->get('last_name'), $request->get('user_name'), $request->get('user_age'), $request->get('user_email'), $request->get('user_password'),null);
              
              
              $serviceregister = new SecurityService();
@@ -36,7 +36,7 @@ class UserController extends Controller
         
         
         try {
-            $credentials = new User(null, null, $request->get('user_name'), null, null, $request->get('user_password'));
+            $credentials = new User(null, null, $request->get('login_name'), null, null, $request->get('login_password'),null);
             
             
             $servicelogin= new SecurityService();
@@ -48,10 +48,24 @@ class UserController extends Controller
             
             //pass the credentials to the business layer
             $isValid = $servicelogin->login($credentials);
-            
+            $checkRole = $servicelogin->findRole($request->get('login_name'));
+            $role = $servicelogin->Role();
+          
             //determine which view to display
             if($isValid)
             {
+                if($checkRole)
+                {
+                    return view('login')->with('msg',"Your account is suspended");
+                }
+                if($role)
+                {
+                    $servicelogin = new AdminController();
+                    
+                    $a = $servicelogin->ManageUsers($request);
+                    return $a;
+                }
+                else
                 return view('home');
             }
             else

@@ -56,6 +56,20 @@ class SecurityService
         return $this->users->viewUser($id);
     }
     
+    public function findRole($username)
+    {
+        $this->users = new SecurityDAO();
+        
+        return $this->users->findRole($username);
+    }
+    
+    public function Role()
+    {
+        $this->users = new SecurityDAO();
+        
+        return $this->users->Role();
+    }
+    
     
     
 }

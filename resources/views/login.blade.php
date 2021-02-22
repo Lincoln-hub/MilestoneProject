@@ -21,7 +21,13 @@
             <button type="submit" name="login">Login</button>
         </div>
     </form>
+     <?php
+        if (isset($msg)) {
+            echo $msg;
+        }
+        ?>
     <p align="center" id="register">If you do not have an account, click <a href="reg"> here</a> to register first</p>
+
 
 </div>
 @endsection

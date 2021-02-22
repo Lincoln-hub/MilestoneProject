@@ -29,9 +29,9 @@ class SecurityDAO
         try 
         {
            //define the query to search the database for the credentials
-           $this->dbQuery = "SELECT Username, Password FROM  user
-                                WHERE Username = '{$credentials->getUsername()}'
-                                    AND Password ='{$credentials->getPassword()}'";
+           $this->dbQuery = "SELECT USERNAME, PASSWORD FROM  user
+                                WHERE USERNAME = '{$credentials->getUsername()}'
+                                    AND PASSWORD ='{$credentials->getPassword()}'";
            //if the selected query returns a resultset
            $result = mysqli_query($this->conn,$this->dbQuery);
            
@@ -186,7 +186,7 @@ class SecurityDAO
     {
         try {
             // update playlist based on param playlist
-            $this->dbQuery = "UPDATE user SET ROLE = 'Suspened' WHERE ID = $id";
+            $this->dbQuery = "UPDATE user SET ROLE = 'suspended' WHERE ID = $id";
             $result =mysqli_query($this->conn,$this->dbQuery);
             
             if($result)
@@ -200,6 +200,78 @@ class SecurityDAO
         } catch (Exception $e2) {
             throw $e2;
         }
+    }
+    
+    public function findRole($username)
+    {
+        try
+        {
+            
+            if ($this->conn-> connect_errno) {
+                echo "Failed to connect to MySQL: ";
+            }
+            
+            
+            $this->dbQuery = "SELECT * FROM user WHERE ROLE = 'suspended' AND USERNAME = '$username'";
+            //if the selected query returns a resultset
+            $result = mysqli_query($this->conn,$this->dbQuery);
+            
+            //$result->execute();
+            
+            if(mysqli_num_rows($result) >0)
+            {
+                // $userResults = $this->dbQuery->fetchAll();
+                //mysqli_free_result($result);
+                // mysqli_close($this->conn);
+                return  true;
+            }
+            else
+            {
+                //mysqli_free_result($result);
+                mysqli_close($this->conn);
+                return false;
+            }
+        } catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+        
+    }
+    
+    public function Role()
+    {
+        try
+        {
+            
+            if ($this->conn-> connect_errno) {
+                echo "Failed to connect to MySQL: ";
+            }
+            
+            
+            $this->dbQuery = "SELECT * FROM user WHERE ROLE = 'Admin'";
+            //if the selected query returns a resultset
+            $result = mysqli_query($this->conn,$this->dbQuery);
+            
+            //$result->execute();
+            
+            if(mysqli_num_rows($result) >0)
+            {
+                // $userResults = $this->dbQuery->fetchAll();
+                //mysqli_free_result($result);
+                // mysqli_close($this->conn);
+                return  true;
+            }
+            else
+            {
+                //mysqli_free_result($result);
+                mysqli_close($this->conn);
+                return false;
+            }
+        } catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+        
     }
     
 }
