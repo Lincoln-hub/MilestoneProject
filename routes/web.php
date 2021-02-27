@@ -52,3 +52,17 @@ Route::post('suspendUser','AdminController@suspendUser');
 
 Route::get('userProfile','AdminController@viewUser');
 Route::post('userProfile','AdminController@viewUser');
+
+Route::post('addJob','AdminController@JobOpening');
+Route::get('jobs','AdminController@findAllJobs');
+Route::post('edit','AdminController@updateJob');
+Route::post('editJob','AdminController@updateTheJob');
+Route::post('deleteJob','AdminController@deleteJob');
+
+
+
+Route::get('/portfolio', function ()
+{
+    //view loginView has to be name of the file in the view
+    return view('portfolio');
+});

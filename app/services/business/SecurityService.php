@@ -1,6 +1,7 @@
 <?php 
 namespace App\services\business;
 
+use App\Http\Models\Jobs;
 use App\Http\Models\User;
 use App\services\data\SecurityDAO;
 
@@ -77,6 +78,33 @@ class SecurityService
         return $this->users->Role($username);
     }
     
+    //Adding a bew job post
+    public function JobOpening(Jobs $job)
+    {
+        $this->job = new SecurityDAO();
+        
+        return $this->job->JobOpening($job);
+    }
     
+    public function updateJob(Jobs $job)
+    {
+        $this->job = new SecurityDAO();
+        
+        return $this->job->updateJob($job);
+    }
     
+    public function deleteJob($id)
+    {
+        $this->job = new SecurityDAO();
+        
+        return $this->job->deleteJob($id);
+    }
+    
+    //return all the jobs in the database
+    public function findAllJobs()
+    {
+        $this->jobs = new SecurityDAO();
+        
+        return $this->jobs->findAllJobs();
+    }
 }

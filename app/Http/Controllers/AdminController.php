@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Models\Jobs;
 use App\services\business\SecurityService;
 
 use Illuminate\Http\Request;
+use App\services\data\SecurityDAO;
 
 class AdminController extends Controller
 {
@@ -71,4 +73,73 @@ class AdminController extends Controller
             return view('manageUsers')->with('msg',' User did not get suspended.');
         }
     }
+    
+    //add new job
+    public function JobOpening(Request $request)
+    {
+        $jobDescription = $request->input('jobDes');
+        $theJob = new Jobs(null, $jobDescription);
+        
+        $job = new SecurityService(); 
+        $job->JobOpening($theJob);
+        
+        return $this->findAllJobs();
+        
+    }
+    
+    //delete job
+    public function deleteJob(Request $request)
+    {
+        $this->job = new SecurityDAO();
+        $id = $request->input('jobID');
+        $this->job->deleteJob($id);
+        
+        return $this->findAllJobs();
+    }
+    
+    //edit job
+    public function updateJob(Request $request)
+    {
+        $jobDescription = $request->input('jobDes');
+        $id = $request->input('jobID');
+        
+        $theJob = new Jobs($id , $jobDescription);
+        $this->job = new SecurityDAO();
+        //return $this->job->updateJob($theJob);
+        
+        return view('editJob')->with('job',  $theJob);
+    }
+    
+    //
+    public function updateTheJob(Request $request)
+    {
+        $jobDescription = $request->input('jobDes');
+        $id = $request->input('id');
+        
+        $theJob = new Jobs($id , $jobDescription);
+        $this->job = new SecurityDAO();
+        
+        $this->job->updateJob($theJob);
+        
+        return $this->findAllJobs();
+
+    }
+    
+    
+    
+    //return all the jobs in the database
+    public function findAllJobs()
+    {
+        //request all songs from bs and dao
+        $jobs = new SecurityService();
+        $results = $jobs->findAllJobs();
+        
+        //return results accordingly
+        if ($results != null){
+            return view('job')->with('jobs', $results);
+        } else {
+            return view('job')->with('msg','There are no Jobs yet.');
+        }
+    }
+    
 }

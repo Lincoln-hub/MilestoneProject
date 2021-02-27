@@ -3,6 +3,7 @@ namespace App\services\data;
 use Carbon\Exceptions\Exception;
 use Illuminate\Support\Facades\DB;
 use App\Http\Models\User;
+use App\Http\Models\Jobs;
 class SecurityDAO
 {
     //Define the connection string
@@ -271,4 +272,120 @@ class SecurityDAO
         
     }
     
+    
+    //function to insert the user information in the databse
+    public function JobOpening(Jobs $job)
+    {
+        
+        if ($this->conn-> connect_errno) {
+            echo "Failed to connect to MySQL: ";
+        }
+        
+        $this->conn->autocommit(TRUE);
+        try
+        {
+            
+            $this->dbQuery = "INSERT INTO job
+                                (DESCRIPTION)
+                                VALUES
+                                ('{$job->getJobDescription()}')";
+            
+            
+            if(mysqli_query($this->conn,$this->dbQuery))
+            {
+                
+                mysqli_close($this->conn);
+                return true;
+            }
+            else
+            {
+                
+                mysqli_close($this->conn);
+                return false;
+            }
+            
+        } catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+    }
+    
+    //Edit Job opening
+    public function updateJob(Jobs $job)
+    {
+        try {
+            // update playlist based on param playlist
+           // $this->dbQuery = "UPDATE job SET DESCRIPTION = ':jobD' WHERE ID = :id";
+           
+            
+            $this->dbQuery = $this->conn->prepare("UPDATE job SET DESCRIPTION = ? WHERE ID = ?");
+            
+            $jobDes = $job->getJobDescription();
+            $jobID = $job->getId();
+            
+            $this->dbQuery->bind_param("si",$jobDes, $jobID);
+            
+            $result = $this->dbQuery->execute();
+            if($result)
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
+            
+        } catch (Exception $e2) {
+            throw $e2;
+        }
+    }
+    
+    //function to delete job from the database
+    public function deleteJob($id)
+    {
+        try {
+            // delete song based on id
+            $this->dbQuery = "DELETE FROM job WHERE ID = $id ";
+            
+            
+            $result = mysqli_query($this->conn,$this->dbQuery);
+            // return bool if row was deleted
+            return $result;
+        } catch (Exception $e2) {
+            throw $e2;
+        }
+    }
+    
+    //function to find all the jos in the database
+    public function findAllJobs()
+    {
+        try
+        {
+            
+            if ($this->conn-> connect_errno) {
+                echo "Failed to connect to MySQL: ";
+            }
+            
+            
+            $this->dbQuery = "SELECT * FROM job";
+            //if the selected query returns a resultset
+            $result = mysqli_query($this->conn,$this->dbQuery);
+            
+            
+            if(mysqli_num_rows($result) >0)
+            {
+                
+                return  $result;
+            }
+            else
+            {
+                mysqli_free_result($result);
+                mysqli_close($this->conn);
+                return false;
+            }
+        } catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+        
+    }
 }
