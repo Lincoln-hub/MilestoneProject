@@ -2,6 +2,7 @@
 namespace App\services\data;
 use Carbon\Exceptions\Exception;
 use Illuminate\Support\Facades\DB;
+use App\Http\Models\Portfolio;
 use App\Http\Models\User;
 use App\Http\Models\Jobs;
 class SecurityDAO
@@ -14,6 +15,8 @@ class SecurityDAO
     private $dbname = "dbmilestone";
     private $port ="";
     private $dbQuery;
+    private $dbQuery1;
+    
     
     //constuctor that creates a connection with the database
     public function __construct()
@@ -31,17 +34,25 @@ class SecurityDAO
         try 
         {
            //define the query to search the database for the credentials
-           $this->dbQuery = "SELECT USERNAME, PASSWORD FROM  user
+           $this->dbQuery = "SELECT * FROM  user
                                 WHERE USERNAME = '{$credentials->getUsername()}'
                                     AND PASSWORD ='{$credentials->getPassword()}'";
+           
+          
+          
            //if the selected query returns a resultset
            $result = mysqli_query($this->conn,$this->dbQuery);
            
            if(mysqli_num_rows($result) >0)
            {
+               $resultUser = $result->fetch_object();
+               $returnedUser = new User($resultUser->ID, $resultUser->FIRSTNAME, $resultUser->LASTNAME,$resultUser->USERNAME, $resultUser->AGE, $resultUser->EMAIL, $resultUser->PASSWORD,$resultUser->ROLE);
+               return $returnedUser;
+               
+              /* $resultUser = 
                mysqli_free_result($result);
                mysqli_close($this->conn);
-               return true;
+               return true;*/
            }
            else
            {
@@ -386,6 +397,88 @@ class SecurityDAO
         {
             echo $e->getMessage();
         }
+        
+    }
+    
+    //function to insert the user information in the databse
+    public function Portfolio(Portfolio $port)
+    {
+        
+        if ($this->conn-> connect_errno) {
+            echo "Failed to connect to MySQL: ";
+        }
+        
+        $this->conn->autocommit(TRUE);
+        try
+        {
+            
+            $this->dbQuery = "INSERT INTO portfolio
+                                (EDUCATION, WORKHISTORY,SKILLS, USERID)
+                                VALUES
+                                ('{$port->getEducation()}','{$port->getWorkHistory()}',
+                                    '{$port->getSkills()}','{$port->getUserid()}')";
+            
+            
+            if(mysqli_query($this->conn,$this->dbQuery))
+            {
+                
+                mysqli_close($this->conn);
+                return true;
+            }
+            else
+            {
+                
+                mysqli_close($this->conn);
+                return false;
+            }
+            
+        } catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+    }
+    
+    public function findPortfolio($id)
+    {
+        try
+        {
+            
+            if ($this->conn-> connect_errno) {
+                echo "Failed to connect to MySQL: ";
+            }
+            
+            
+            $this->dbQuery = "SELECT * FROM portfolio WHERE USERID = '$id'";
+            
+
+            //if the selected query returns a resultset
+            $result = mysqli_query($this->conn,$this->dbQuery);
+            
+            
+            if(mysqli_num_rows($result) >0)
+            {
+                
+                return  $result;
+            }
+            else
+            {
+                //mysqli_free_result($result);
+                mysqli_close($this->conn);
+                return false;
+            }
+        } catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+    }
+    
+    public function findWork()
+    {
+        
+    }
+    
+    public function findSkills()
+    {
         
     }
 }

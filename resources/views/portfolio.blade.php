@@ -7,13 +7,13 @@
 <meta http-equiv="X-UA-Compatible" content = "ie=edge">
 <!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-<title>Job Openings</title>
+<title>Profile</title>
 </head>
 <body>
 	<div class="container-fluid">
     	<div class="row">
     		<div class="col-md-6">
-    			<form action="" method="post">
+    			<form action="port" method="post">
     				@csrf
     				<div class="row form-group">
     					<div class="col-md-12">
@@ -47,12 +47,10 @@
     					<th>Education</th>
     					
     				</tr>
-    				 @if(isset($jobs))
-    				@foreach($jobs as $job)
+    				 @if(isset($portfolio))
+    				@foreach($portfolio as $p)
         				<tr>
-        					<td>{{$job['DESCRIPTION']}}</td>
-        					
-        				
+        					<td>{{$p['WORKHISTORY']}}</td>			
         				</tr>       				
         			@endforeach
         			@endif
@@ -65,12 +63,11 @@
     					<th>Work History</th>
     					
     				</tr>
-    				 @if(isset($jobs))
-    				@foreach($jobs as $job)
+    				 @if(isset($portfolio))
+    				@foreach($portfolio as $p)
         				<tr>
-        					<td>{{$job['DESCRIPTION']}}</td>
-        					
-        				
+        					<td>{{$p['EDUCATION']}}</td>
+     				
         				</tr>       				
         			@endforeach
         			@endif
@@ -83,17 +80,18 @@
     					<th>Skills</th>
     					
     				</tr>
-    				 @if(isset($jobs))
-    				@foreach($jobs as $job)
+    				 @if(isset($portfolio))
+    				@foreach($portfolio as $p)
         				<tr>
-        					<td>{{$job['DESCRIPTION']}}</td>
-        					
-        				
+        					<td>{{$p['SKILLS']}}</td>	
         				</tr>       				
         			@endforeach
         			@endif
     			</table>
     		</div>
+    		</form>
+    		<form action ="toJobs" method = "get">
+    		<input type="submit" class="btn btn-secondary btn-small" value="View Job Postings" />
     		</form>
     	</div>
 	</div>

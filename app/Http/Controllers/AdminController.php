@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 use App\Http\Models\Jobs;
 use App\services\business\SecurityService;
 
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\services\data\SecurityDAO;
+use App\Http\Models\Portfolio;
 
 class AdminController extends Controller
 {
@@ -125,8 +128,6 @@ class AdminController extends Controller
 
     }
     
-    
-    
     //return all the jobs in the database
     public function findAllJobs()
     {
@@ -141,5 +142,22 @@ class AdminController extends Controller
             return view('job')->with('msg','There are no Jobs yet.');
         }
     }
+    
+    //return all the jobs in the database
+    public function findAllJob()
+    {
+        //request all songs from bs and dao
+        $jobs = new SecurityService();
+        $results = $jobs->findAllJobs();
+        
+        //return results accordingly
+        if ($results != null){
+            return view('jobUsers')->with('jobs', $results);
+        } else {
+            return view('jobUsers')->with('msg','There are no Jobs yet.');
+        }
+    }
+    
+    
     
 }

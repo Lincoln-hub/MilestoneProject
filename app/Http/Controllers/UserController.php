@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Carbon\Exceptions\Exception;
+use App\Http\Models\Portfolio;
 use App\Http\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\services\business\SecurityService;
 
 class UserController extends Controller
@@ -17,7 +19,7 @@ class UserController extends Controller
      
         
          try {
-             $credentials = new User($request->get('first_name'), $request->get('last_name'), $request->get('user_name'), $request->get('user_age'), $request->get('user_email'), $request->get('user_password'),null);
+             $credentials = new User(null,$request->get('first_name'), $request->get('last_name'), $request->get('user_name'), $request->get('user_age'), $request->get('user_email'), $request->get('user_password'),null);
              
              
              $serviceregister = new SecurityService();
@@ -37,14 +39,14 @@ class UserController extends Controller
         
         
         try {
-            $credentials = new User(null, null, $request->get('login_name'), null, null, $request->get('login_password'),null);
+            $credentials = new User(null,null, null, $request->get('login_name'), null, null, $request->get('login_password'),null);
             
             
             $servicelogin= new SecurityService();
             
             //pass the credentials to the business layer
             $servicelogin->login($credentials);
-            
+            $result = $servicelogin->login($credentials);
             
             
             //pass the credentials to the business layer
@@ -63,11 +65,20 @@ class UserController extends Controller
                 {
                     $servicelogin = new AdminController();
                     
-                    $a = $servicelogin->ManageUsers($request);
+                    $a = $servicelogin->JobOpening($request);
                     return $a;
                 }
                 else
-                return view('home');
+                {
+                    $portfolio = new UserController();
+                    
+                    
+                    
+                    Session::put('userid',$result->getId());
+                    $port = $portfolio->Portfolio( $request);
+                    //Session::put('userid',$result);
+                    return $port;
+                }
             }
             else
             {
@@ -78,6 +89,44 @@ class UserController extends Controller
             throw $e2;
         }
         
+    }
+    
+    public function Portfolio(Request $request)
+    {
+        $work = $request->input('education');
+        $education = $request->input('workhistory');
+        $skills = $request->input('skills');
+        $userid = Session::get('userid');
+        
+        $port = new Portfolio($education, $work, $skills,$userid);
+        
+        $port1 = new SecurityService();
+        
+        $results = $port1->Portfolio($port);
+        
+        $a = new UserController();
+        $b = $a->findPortfolio();
+        if($results)
+        {
+            return $b;
+        }
+        else echo"There is a problem";
+        
+    }
+    
+    public function findPortfolio()
+    {
+        $userid = Session::get('userid');
+        
+        $port = new SecurityService();
+        
+        $results = $port->findPortfolio($userid);
+        
+        if ($results != null){
+            return view('portfolio')->with('portfolio', $results);
+        } else {
+            return view('portfolio')->with('msg','Your Port Folio is empty');
+        }
     }
     
     //logs out the user

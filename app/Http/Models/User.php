@@ -4,6 +4,7 @@ namespace App\Http\Models;
 class User
 {
   
+    private $id;
     
     private $firstName;
     
@@ -19,9 +20,11 @@ class User
     
     private $role;
     
-   
-    public function __construct($firstName,$lastName,$username,$age,$email,$password,$role){
+  
+
+    public function __construct($id,$firstName,$lastName,$username,$age,$email,$password,$role){
        
+        $this->id = $id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->age = $age;
@@ -31,6 +34,7 @@ class User
         $this->role=$role;
     }
     
+ 
     
     /**
      * @return mixed

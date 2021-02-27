@@ -2,8 +2,10 @@
 namespace App\services\business;
 
 use App\Http\Models\Jobs;
+use App\Http\Models\Portfolio;
 use App\Http\Models\User;
 use App\services\data\SecurityDAO;
+use Symfony\Component\HttpKernel\EventListener\SaveSessionListener;
 
 
 class SecurityService
@@ -11,6 +13,7 @@ class SecurityService
     private $verifyCred;
     private $reg;
     private $users;
+    private $potfolio;
     
     //login
     public function login(User $credentials)
@@ -106,5 +109,19 @@ class SecurityService
         $this->jobs = new SecurityDAO();
         
         return $this->jobs->findAllJobs();
+    }
+    
+    public function Portfolio(Portfolio $port)
+    {
+        $this->potfolio = new SecurityDAO();
+        
+        return $this->potfolio->Portfolio($port);
+    }
+    
+    public function findPortfolio($id)
+    {
+        $this->potfolio = new SecurityDAO();
+        
+        return $this->potfolio->findPortfolio($id);
     }
 }

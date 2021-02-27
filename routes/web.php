@@ -60,9 +60,10 @@ Route::post('editJob','AdminController@updateTheJob');
 Route::post('deleteJob','AdminController@deleteJob');
 
 
+Route::get('viewJobs','AdminController@findAllJob');
+Route::get('toJobs','AdminController@findAllJob');
+Route::get('portfolio','UserController@findPortfolio');
+Route::post('port','UserController@Portfolio');
 
-Route::get('/portfolio', function ()
-{
-    //view loginView has to be name of the file in the view
-    return view('portfolio');
-});
+
+
