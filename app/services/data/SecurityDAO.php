@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Models\Portfolio;
 use App\Http\Models\User;
 use App\Http\Models\Jobs;
+use App\Http\Models\AffinityModel;
 class SecurityDAO
 {
     //Define the connection string
@@ -472,13 +473,205 @@ class SecurityDAO
         }
     }
     
-    public function findWork()
+    public function createGroup(AffinityModel $group)
     {
+        if ($this->conn-> connect_errno) {
+            echo "Failed to connect to MySQL: ";
+        }
         
+        $this->conn->autocommit(TRUE);
+        try
+        {
+            
+            $this->dbQuery = "INSERT INTO `group`
+                                (NAME)
+                                VALUES
+                                ('{$group->getName()}')";   
+            if(mysqli_query($this->conn,$this->dbQuery))
+            {
+                
+                mysqli_close($this->conn);
+                return true;
+            }
+            else
+            {
+                
+                mysqli_close($this->conn);
+                return false;
+            }
+            
+        } catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
     }
     
-    public function findSkills()
+    //delete group
+    public function deleteGroup($id)
     {
+        try {
+            // delete song based on id
+            $this->dbQuery = "DELETE FROM `group` WHERE ID = $id ";
+            
+            
+            $result = mysqli_query($this->conn,$this->dbQuery);
+            // return bool if row was deleted
+            return $result;
+        } catch (Exception $e2) {
+            throw $e2;
+        }
+    }
+    
+    //updates group
+    public function updateGroup(AffinityModel $group)
+    {
+        try {
+            
+            $this->dbQuery = $this->conn->prepare("UPDATE `group` SET NAME = ? WHERE ID = ?");
+            
+            $goupName = $group->getName();
+            $id = $group->getId();
+            
+            $this->dbQuery->bind_param("si",$goupName,$id);
+            
+            $result = $this->dbQuery->execute();
+            if($result)
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
+            
+        } catch (Exception $e2) {
+            throw $e2;
+        }
+    }
+    
+    public function viewGroup($groupID)
+    {
+        if ($this->conn-> connect_errno) {
+            echo "Failed to connect to MySQL: ";
+        }
         
+        $this->conn->autocommit(TRUE);
+        try
+        {
+            
+            
+            $this->dbQuery = "SELECT u.FIRSTNAME, u.LASTNAME FROM  user u
+                                INNER JOIN groupuser gu ON u.ID = gu.USERID
+                                WHERE gu.GROUPID = $groupID";
+            
+            
+            
+            //if the selected query returns a resultset
+            $result = mysqli_query($this->conn,$this->dbQuery);
+            
+            
+            if(mysqli_num_rows($result) >0)
+            {
+                
+                return  $result;
+            }
+            else
+            {
+                //mysqli_free_result($result);
+                mysqli_close($this->conn);
+                return false;
+            }
+        } catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+    }
+    
+    
+    public function findAllGroups()
+    {
+        if ($this->conn-> connect_errno) {
+            echo "Failed to connect to MySQL: ";
+        }
+        
+        $this->conn->autocommit(TRUE);
+        try
+        {
+            $this->dbQuery = "SELECT * FROM `group` ";
+
+            //if the selected query returns a resultset
+            $result = mysqli_query($this->conn,$this->dbQuery);
+            
+            
+            if(mysqli_num_rows($result) >0)
+            {
+                
+                return  $result;
+            }
+            else
+            {
+                //mysqli_free_result($result);
+                mysqli_close($this->conn);
+                return false;
+            }
+        } catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+    }
+    
+    public function  addToGroup($groupID,$userID)
+    {
+        //convert IDs to ints
+        $groupID = (int)$groupID;
+        $userID = (int)$userID;
+        
+        if ($this->conn-> connect_errno) {
+            echo "Failed to connect to MySQL: ";
+        }
+        
+        $this->conn->autocommit(TRUE);
+        try
+        {
+            
+            $this->dbQuery = "INSERT INTO groupuser
+                                (GROUPID, USERID)
+                                VALUES
+                                ($groupID, $userID)";
+            
+            
+            if(mysqli_query($this->conn,$this->dbQuery))
+            {
+                
+                mysqli_close($this->conn);
+                return true;
+            }
+            else
+            {
+                
+                mysqli_close($this->conn);
+                return false;
+            }
+            
+        } catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+    }
+    
+    
+    //remove user from group
+    public function removeFromGroup($groupID, $userID) 
+    {
+        try {
+            // delete user from group
+            $this->dbQuery = "DELETE FROM groupuser WHERE GROUPID = $groupID AND USERID = $userID ";
+            
+            
+            $result = mysqli_query($this->conn,$this->dbQuery);
+            // return bool if row was deleted
+            return $result;
+        } catch (Exception $e2) {
+            throw $e2;
+        }
     }
 }

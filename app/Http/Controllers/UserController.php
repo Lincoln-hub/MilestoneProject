@@ -70,14 +70,10 @@ class UserController extends Controller
                 }
                 else
                 {
-                    $portfolio = new UserController();
-                    
-                    
-                    
+                    //$portfolio = new UserController();
                     Session::put('userid',$result->getId());
-                    $port = $portfolio->Portfolio( $request);
-                    //Session::put('userid',$result);
-                    return $port;
+                   // $port = $portfolio->Portfolio( $request);
+                    return $this->findPortfolio();
                 }
             }
             else
@@ -121,13 +117,86 @@ class UserController extends Controller
         $port = new SecurityService();
         
         $results = $port->findPortfolio($userid);
+            
+        $result = $port->findAllGroups();
         
         if ($results != null){
-            return view('portfolio')->with('portfolio', $results);
+            return view('portfolio')->with('portfolio', $results)->with('groups',$result);
         } else {
             return view('portfolio')->with('msg','Your Port Folio is empty');
         }
     }
+    
+    //add users to group
+    public function  addToGroup(Request $requset)
+    {
+        $userid = Session::get('userid');
+        
+        $groupID = $requset->get('groupID');
+        
+        
+        $newUser = new SecurityService();
+        
+        $result = $newUser->addToGroup($groupID, $userid);
+        
+        if ($result){
+            return $this->viewGroup($requset);
+        } else {
+            echo "Something went wrong!!!!!!!";
+        }    
+    }
+    
+    //remove user from group
+    public function removeFromGroup(Request $requset)
+    {
+        $userid = Session::get('userid');
+        
+        $groupID = $requset->get('groupID');
+        $newUser = new SecurityService();
+        
+        $result = $newUser->removeFromGroup($groupID, $userid);
+        
+        if ($result){
+            return $this->viewGroup($requset);
+        } else {
+            echo "something went wrong";
+        }    
+    }
+    
+    //view group
+    public function viewGroup(Request $requset)
+    {
+        $groupID = $requset->get('groupID');
+        $group = new SecurityService();
+        
+        $result = $group->viewGroup($groupID);
+        
+        if ($result){
+            return view('viewGroup')->with('users',$result)->with('gID',$groupID);
+        } else {
+            return view('viewGroup')->with('msg',"There are no users in this group yet!")->with('gID',$groupID);
+        }
+        
+        
+            
+    }
+    
+    //find all groups
+    public function findAllGroups()
+    {
+        $groups = new SecurityService();
+        
+        
+        $result = $groups->findAllGroups();
+        
+        //return results accordingly
+        if ($result != null){
+            return view('portfolio')->with('groups',$result);
+        } else {
+            echo "something is wrong";
+        }
+    }
+    
     
     //logs out the user
     public function logout(Request $request) {

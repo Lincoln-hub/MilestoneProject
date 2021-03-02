@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Models\AffinityModel;
 use App\Http\Models\Jobs;
 use App\services\business\SecurityService;
 
@@ -113,7 +114,7 @@ class AdminController extends Controller
         return view('editJob')->with('job',  $theJob);
     }
     
-    //
+    //updates the job posting
     public function updateTheJob(Request $request)
     {
         $jobDescription = $request->input('jobDes');
@@ -156,6 +157,90 @@ class AdminController extends Controller
         } else {
             return view('jobUsers')->with('msg','There are no Jobs yet.');
         }
+    }
+    
+    //create a new group
+    public function createGroup(Request $request)
+    {
+        $name = $request->get('groupName');
+        $newGroup = new AffinityModel(null, $name);
+        
+        $group = new SecurityService();
+        
+        $results = $group->createGroup($newGroup);
+        
+        //return results accordingly
+        if ($results){
+            return $this->findAllGroups();
+        } else {
+            echo "There is an issue";
+        }        
+    }
+    
+    //update a group
+    public function updateGroupView(Request $request)
+    {
+        $name = $request->get('groupName');
+        $id = $request->get('groupID');
+        
+        $newGroup = new AffinityModel($id, $name);
+        
+        return view('editGroup')->with('group',$newGroup);
+    }
+    
+    
+    //update a group
+    public function updateGroup(Request $request)
+    {
+        $name = $request->get('groupName');
+        $id = $request->get('groupID');
+        
+        $newGroup = new AffinityModel($id, $name);
+        
+        $group = new SecurityService();
+        
+        $results = $group->updateGroup($newGroup);
+        
+        //return results accordingly
+        if ($results){
+            return $this->findAllGroups();
+        } else {
+            echo "did not update there is a problem";
+        }        
+    }
+    
+    
+    //delete group
+    public function deleteGroup(Request $request)
+    {
+        $id = $request->get('groupID');
+        
+        $group = new SecurityService();
+        
+        $result = $group->deleteGroup($id);
+        
+        //return results accordingly
+        if ($result){
+            return $this->findAllGroups();
+        } else {
+            echo "Did not delete there is a problem";
+        } 
+    }
+    
+    //find all groups
+    public function findAllGroups()
+    {
+        $groups = new SecurityService();
+        
+        
+        $result = $groups->findAllGroups();
+        
+        //return results accordingly
+        if ($result != null){
+            return view('createGroup')->with('groups',$result);
+        } else {
+            return view('createGroup')->with('msg','There are no Jobs yet.');
+        } 
     }
     
     

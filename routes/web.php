@@ -64,6 +64,15 @@ Route::get('viewJobs','AdminController@findAllJob');
 Route::get('toJobs','AdminController@findAllJob');
 Route::get('portfolio','UserController@findPortfolio');
 Route::post('port','UserController@Portfolio');
+Route::post('viewGroup','UserController@viewGroup');
+Route::post('addToGroup','UserController@addToGroup');
+Route::post('removeFromGroup','UserController@removeFromGroup');
+
+Route::get('groups','AdminController@findAllGroups');
+Route::post('createGroup','AdminController@createGroup');
+Route::post('deleteGroup','AdminController@deleteGroup');
+Route::post('editGroup','AdminController@updateGroupView');
+Route::post('editTheGroup','AdminController@updateGroup');
 
 
 

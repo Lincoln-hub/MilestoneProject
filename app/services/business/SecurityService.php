@@ -1,6 +1,7 @@
 <?php 
 namespace App\services\business;
 
+use App\Http\Models\AffinityModel;
 use App\Http\Models\Jobs;
 use App\Http\Models\Portfolio;
 use App\Http\Models\User;
@@ -14,6 +15,7 @@ class SecurityService
     private $reg;
     private $users;
     private $potfolio;
+    private $group;
     
     //login
     public function login(User $credentials)
@@ -123,5 +125,62 @@ class SecurityService
         $this->potfolio = new SecurityDAO();
         
         return $this->potfolio->findPortfolio($id);
+    }
+    
+    
+   //create a group
+    public function createGroup(AffinityModel $group)
+    {
+        $this->group = new SecurityDAO();
+        
+        return $this->group->createGroup($group);
+    }
+    
+    //update a group
+    public function updateGroup(AffinityModel $group)
+    {
+        $this->group = new SecurityDAO();
+        
+        return $this->group->updateGroup($group);
+    }
+    
+    //delete group
+    public function deleteGroup($id)
+    {
+        $this->group = new SecurityDAO();
+        
+        return $this->group->deleteGroup($id);
+    }
+    
+    //view group
+    public function viewGroup($groupID)
+    {
+        $this->group = new SecurityDAO();
+        
+        return $this->group->viewGroup($groupID);
+    }
+    
+    //find all groups
+    public function findAllGroups()
+    {
+        $this->group = new SecurityDAO();
+        
+        return $this->group->findAllGroups();
+    }
+    
+    //add users to group
+    public function  addToGroup($groupID,$userID)
+    {
+        $this->group = new SecurityDAO();
+        
+        return $this->group->addToGroup($groupID, $userID);
+    }
+    
+    //remove user from group
+    public function removeFromGroup($groupID, $userID)
+    {
+        $this->group = new SecurityDAO();
+        
+        return $this->group->removeFromGroup($groupID, $userID);
     }
 }

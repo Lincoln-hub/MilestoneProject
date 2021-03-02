@@ -40,6 +40,27 @@
     				</div>
     			</form>
     		</div>
+    		<div class="col-md-6">
+    			<table class="table table-striped table-hover">
+    				<tr>
+    					<th>Group Name</th>
+    					<th>View Group</th>
+    				</tr>
+    				 @if(isset($groups))
+    				@foreach($groups as $g)
+        				<tr>
+        					<td>{{$g['NAME']}}</td>
+        					
+        					<td class="col-3"><form action="viewGroup" method="post">
+							<input type="hidden" name="_token" value="{{ csrf_token()}}" /> <input
+								type="hidden" name="groupID" value="{{ $g['ID'] }}" />
+								 <input type="submit" class="btn btn-secondary btn-small" value="View Group" />
+								</form></td>
+        				</tr>       				
+        			@endforeach
+        			@endif
+    			</table>
+    		</div>
     		<form>
     		<div class="col-md-6">
     			<table class="table table-striped table-hover">
