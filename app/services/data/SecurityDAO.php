@@ -25,7 +25,6 @@ class SecurityDAO
         //create a connection to the database
         $this->conn = mysqli_connect($this->severname,$this->username,$this->password,$this->dbname);
         
-        //test the connection
         
     }
     
