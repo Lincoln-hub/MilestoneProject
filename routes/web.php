@@ -15,9 +15,8 @@ Route::get('/', function () {
     return view('login');
 });
 
-Route::get('logout', function () {
-        return view('login');
-    });
+
+Route::get('logout','UserController@logout');
 
 Route::get('reg', function () {
         return view('register');

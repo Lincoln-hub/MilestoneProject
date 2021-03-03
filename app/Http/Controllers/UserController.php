@@ -16,17 +16,17 @@ class UserController extends Controller
     public function index(Request $request)
     {
         // trys to validate throws validation error if failed rules
-     
         
-         try {
-             $credentials = new User(null,$request->get('first_name'), $request->get('last_name'), $request->get('user_name'), $request->get('user_age'), $request->get('user_email'), $request->get('user_password'),null);
-             
-             
-             $serviceregister = new SecurityService();
-             
-             //pass the credentials to the business layer
-             $serviceregister->Register($credentials);  
-             
+        
+        try {
+            $credentials = new User(null,$request->get('first_name'), $request->get('last_name'), $request->get('user_name'), $request->get('user_age'), $request->get('user_email'), $request->get('user_password'),null);
+            
+            
+            $serviceregister = new SecurityService();
+            
+            //pass the credentials to the business layer
+            $serviceregister->Register($credentials);
+            
         } catch (Exception $e2) {
             throw $e2;
         }
@@ -40,9 +40,9 @@ class UserController extends Controller
         
         try {
             //flush session
-            $request->session()->flush();
-            Session::flush();
-           
+            // $request->session()->flush();
+            //Session::flush();
+            
             $credentials = new User(null,null, null, $request->get('login_name'), null, null, $request->get('login_password'),null);
             
             
@@ -57,7 +57,7 @@ class UserController extends Controller
             $isValid = $servicelogin->login($credentials);
             $checkRole = $servicelogin->findRole($request->get('login_name'));
             $role = $servicelogin->Role($request->get('login_name'));
-          
+            
             //determine which view to display
             if($isValid)
             {
@@ -70,11 +70,11 @@ class UserController extends Controller
                     $servicelogin = new AdminController();
                     Session::put('adminID',$result->getId());
                     
-                    $a = $servicelogin->findAllJobs();
+                    $a = $servicelogin->JobOpening($request);
                     return $a;
                 }
                 else
-                { 
+                {
                     Session::put('userid',$result->getId());
                     return $this->findPortfolio();
                 }
@@ -120,7 +120,7 @@ class UserController extends Controller
         $port = new SecurityService();
         
         $results = $port->findPortfolio($userid);
-            
+        
         $result = $port->findAllGroups();
         
         if ($results != null){
@@ -146,7 +146,7 @@ class UserController extends Controller
             return $this->viewGroup($requset);
         } else {
             echo "Something went wrong!!!!!!!";
-        }    
+        }
     }
     
     //remove user from group
@@ -163,7 +163,7 @@ class UserController extends Controller
             return $this->viewGroup($requset);
         } else {
             echo "something went wrong";
-        }    
+        }
     }
     
     //view group
@@ -173,16 +173,15 @@ class UserController extends Controller
         $group = new SecurityService();
         
         $result = $group->viewGroup($groupID);
-        $userid = Session::get('userid');
         
         if ($result){
-            return view('viewGroup')->with('users',$result)->with('gID',$groupID)->with('userid',$userid);
+            return view('viewGroup')->with('users',$result)->with('gID',$groupID);
         } else {
             return view('viewGroup')->with('msg',"There are no users in this group yet!")->with('gID',$groupID);
         }
         
         
-            
+        
     }
     
     //find all groups
@@ -203,7 +202,7 @@ class UserController extends Controller
     
     
     //logs out the user
-    public function logout(Request $request) 
+    public function logout(Request $request)
     {
         try {
             Session::flush();

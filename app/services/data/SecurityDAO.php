@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace App\services\data;
 use Carbon\Exceptions\Exception;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +14,7 @@ class SecurityDAO
     private $username = "root";
     private $password = "root";
     private $dbname = "dbmilestone";
-    private $port ='3308';
+    private $port ="";
     private $dbQuery;
     private $dbQuery1;
     
@@ -23,7 +23,7 @@ class SecurityDAO
     public function __construct()
     {
         //create a connection to the database
-        $this->conn = mysqli_connect($this->severname,$this->username,$this->password,$this->dbname,$this->port);
+        $this->conn = mysqli_connect($this->severname,$this->username,$this->password,$this->dbname);
         
         
     }
@@ -31,36 +31,36 @@ class SecurityDAO
     //function to check if the user is in the database
     public function fingByUser(User $credentials)
     {
-        try 
+        try
         {
-           //define the query to search the database for the credentials
-           $this->dbQuery = "SELECT * FROM  user
+            //define the query to search the database for the credentials
+            $this->dbQuery = "SELECT * FROM  user
                                 WHERE USERNAME = '{$credentials->getUsername()}'
                                     AND PASSWORD ='{$credentials->getPassword()}'";
-           
-          
-          
-           //if the selected query returns a resultset
-           $result = mysqli_query($this->conn,$this->dbQuery);
-           
-           if(mysqli_num_rows($result) >0)
-           {
-               $resultUser = $result->fetch_object();
-               $returnedUser = new User($resultUser->ID, $resultUser->FIRSTNAME, $resultUser->LASTNAME,$resultUser->USERNAME, $resultUser->AGE, $resultUser->EMAIL, $resultUser->PASSWORD,$resultUser->ROLE);
-               return $returnedUser;
-               
-              /* $resultUser = 
-               mysqli_free_result($result);
-               mysqli_close($this->conn);
-               return true;*/
-           }
-           else
-           {
-               mysqli_free_result($result);
-               mysqli_close($this->conn);
-               return false;
-           }
-        } catch (Exception $e) 
+            
+            
+            
+            //if the selected query returns a resultset
+            $result = mysqli_query($this->conn,$this->dbQuery);
+            
+            if(mysqli_num_rows($result) >0)
+            {
+                $resultUser = $result->fetch_object();
+                $returnedUser = new User($resultUser->ID, $resultUser->FIRSTNAME, $resultUser->LASTNAME,$resultUser->USERNAME, $resultUser->AGE, $resultUser->EMAIL, $resultUser->PASSWORD,$resultUser->ROLE);
+                return $returnedUser;
+                
+                /* $resultUser =
+                 mysqli_free_result($result);
+                 mysqli_close($this->conn);
+                 return true;*/
+            }
+            else
+            {
+                mysqli_free_result($result);
+                mysqli_close($this->conn);
+                return false;
+            }
+        } catch (Exception $e)
         {
             echo $e->getMessage();
         }
@@ -76,14 +76,14 @@ class SecurityDAO
         }
         
         $this->conn->autocommit(TRUE);
-        try 
+        try
         {
             
-           $this->dbQuery = "INSERT INTO user
+            $this->dbQuery = "INSERT INTO user
                                 (FIRSTNAME, LASTNAME, USERNAME, AGE, EMAIL,PASSWORD)
                                 VALUES
-                                ('{$user->getFirstName()}', '{$user->getLastName()}', 
-                                    '{$user->getUsername()}', '{$user->getAge()}', 
+                                ('{$user->getFirstName()}', '{$user->getLastName()}',
+                                    '{$user->getUsername()}', '{$user->getAge()}',
                                     '{$user->getEmail()}', '{$user->getPassword()}')";
             
             
@@ -100,32 +100,32 @@ class SecurityDAO
                 return false;
             }
             
-        } catch (Exception $e) 
+        } catch (Exception $e)
         {
             echo $e->getMessage();
         }
     }
     
-
-   //function to find all the users in the database
-   public function findAllUsers()
+    
+    //function to find all the users in the database
+    public function findAllUsers()
     {
         try
         {
-        
+            
             if ($this->conn-> connect_errno) {
                 echo "Failed to connect to MySQL: ";
             }
             
             
-             $this->dbQuery = "SELECT * FROM user";
+            $this->dbQuery = "SELECT * FROM user";
             //if the selected query returns a resultset
             $result = mysqli_query($this->conn,$this->dbQuery);
             
             
             if(mysqli_num_rows($result) >0)
             {
-           
+                
                 return  $result;
             }
             else
@@ -134,7 +134,7 @@ class SecurityDAO
                 mysqli_close($this->conn);
                 return false;
             }
-    } catch (Exception $e)
+        } catch (Exception $e)
         {
             echo $e->getMessage();
         }
@@ -160,7 +160,7 @@ class SecurityDAO
             
             if(mysqli_num_rows($result) >0)
             {
-
+                
                 return  $result;
             }
             else
@@ -265,15 +265,15 @@ class SecurityDAO
             
             //if the selected query returns a resultset
             $result = mysqli_query($this->conn,$this->dbQuery);
-
+            
             if(mysqli_num_rows($result) >0)
             {
-   
+                
                 return  true;
             }
             else
             {
-
+                
                 return false;
             }
         } catch (Exception $e)
@@ -326,8 +326,8 @@ class SecurityDAO
     {
         try {
             // update playlist based on param playlist
-           // $this->dbQuery = "UPDATE job SET DESCRIPTION = ':jobD' WHERE ID = :id";
-           
+            // $this->dbQuery = "UPDATE job SET DESCRIPTION = ':jobD' WHERE ID = :id";
+            
             
             $this->dbQuery = $this->conn->prepare("UPDATE job SET DESCRIPTION = ? WHERE ID = ?");
             
@@ -450,7 +450,7 @@ class SecurityDAO
             
             $this->dbQuery = "SELECT * FROM portfolio WHERE USERID = '$id'";
             
-
+            
             //if the selected query returns a resultset
             $result = mysqli_query($this->conn,$this->dbQuery);
             
@@ -472,74 +472,39 @@ class SecurityDAO
         }
     }
     
-//     public function createGroup(AffinityModel $group)
-//     {
-//         if ($this->conn-> connect_errno) {
-//             echo "Failed to connect to MySQL: ";
-//         }
-        
-//         $this->conn->autocommit(TRUE);
-//         try
-//         {
-            
-//             $this->dbQuery = "INSERT INTO `group`
-//                                 (NAME)
-//                                 VALUES
-//                                 ('{$group->getName()}')";   
-//             if(mysqli_query($this->conn,$this->dbQuery))
-//             {
-                
-//                 mysqli_close($this->conn);
-//                 return true;
-//             }
-//             else
-//             {
-                
-//                 mysqli_close($this->conn);
-//                 return false;
-//             }
-            
-//         } catch (Exception $e)
-//         {
-//             echo $e->getMessage();
-//         }
-//     }
-
-public function createGroup(AffinityModel $group)
-{
-    
-    if ($this->conn-> connect_errno) {
-        echo "Failed to connect to MySQL: ";
-    }
-    
-    $this->conn->autocommit(TRUE);
-    try
+    public function createGroup(AffinityModel $group)
     {
+        if ($this->conn-> connect_errno) {
+            echo "Failed to connect to MySQL: ";
+        }
         
-        $this->dbQuery = "INSERT INTO `group`
+        $this->conn->autocommit(TRUE);
+        try
+        {
+            
+            $this->dbQuery = "INSERT INTO `group`
                                 (NAME)
                                 VALUES
                                 ('{$group->getName()}')";
-        
-        
-        if(mysqli_query($this->conn,$this->dbQuery))
-        {
             
-            mysqli_close($this->conn);
-            return true;
-        }
-        else
-        {
+            if(mysqli_query($this->conn,$this->dbQuery))
+            {
+                
+                mysqli_close($this->conn);
+                return true;
+            }
+            else
+            {
+                
+                mysqli_close($this->conn);
+                return false;
+            }
             
-            mysqli_close($this->conn);
-            return false;
+        } catch (Exception $e)
+        {
+            echo $e->getMessage();
         }
-        
-    } catch (Exception $e)
-    {
-        echo $e->getMessage();
     }
-}
     
     //delete group
     public function deleteGroup($id)
@@ -632,7 +597,7 @@ public function createGroup(AffinityModel $group)
         try
         {
             $this->dbQuery = "SELECT * FROM `group` ";
-
+            
             //if the selected query returns a resultset
             $result = mysqli_query($this->conn,$this->dbQuery);
             
@@ -695,7 +660,7 @@ public function createGroup(AffinityModel $group)
     
     
     //remove user from group
-    public function removeFromGroup($groupID, $userID) 
+    public function removeFromGroup($groupID, $userID)
     {
         try {
             // delete user from group

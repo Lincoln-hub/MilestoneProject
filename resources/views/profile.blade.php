@@ -1,4 +1,4 @@
-@extends('layouts.appmaster') @section('title','HomePage')
+@extends('layouts.adminappmaster') @section('title','HomePage')
 
 @section('content')
 <div class="containerfull">
