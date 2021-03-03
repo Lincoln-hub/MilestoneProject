@@ -39,6 +39,8 @@ class UserController extends Controller
         
         
         try {
+            
+           
             $credentials = new User(null,null, null, $request->get('login_name'), null, null, $request->get('login_password'),null);
             
             
@@ -69,10 +71,8 @@ class UserController extends Controller
                     return $a;
                 }
                 else
-                {
-                    //$portfolio = new UserController();
+                { 
                     Session::put('userid',$result->getId());
-                   // $port = $portfolio->Portfolio( $request);
                     return $this->findPortfolio();
                 }
             }
@@ -199,9 +199,16 @@ class UserController extends Controller
     
     
     //logs out the user
-    public function logout(Request $request) {
+    public function logout(Request $request) 
+    {
+        try {
+            Session::flush();
+            $request->session()->flush();
+            return redirect('/');
+        } catch (Exception $e2) {
+            throw $e2;
+        }
         
-        return redirect('/');
     }
     
     public function reg(Request $request) {

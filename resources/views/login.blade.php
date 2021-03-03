@@ -2,6 +2,7 @@
 @section('title', 'Login Page')
 
 @section('content')
+<div align="center">
 <div class ="container">
     <form action="login" method = "post">
     <input type = "hidden" name = "_token" value = "<?php echo csrf_token() ?>"/>
@@ -27,7 +28,6 @@
         }
         ?>
     <p align="center" id="register">If you do not have an account, click <a href="reg"> here</a> to register first</p>
-
-
+</div>
 </div>
 @endsection
