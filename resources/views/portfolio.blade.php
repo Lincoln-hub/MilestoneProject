@@ -1,4 +1,4 @@
-
+@if (Session::has('userid'))
 @extends('layouts.appmaster')
 
 @section('title','Login')
@@ -115,3 +115,7 @@
 	</div>
 	</div>
 	@endsection
+@else
+    <script>window.location.href = 'login';</script>
+
+@endif

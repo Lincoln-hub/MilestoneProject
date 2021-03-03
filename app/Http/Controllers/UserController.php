@@ -39,7 +39,9 @@ class UserController extends Controller
         
         
         try {
-            
+            //flush session
+            $request->session()->flush();
+            Session::flush();
            
             $credentials = new User(null,null, null, $request->get('login_name'), null, null, $request->get('login_password'),null);
             
@@ -66,8 +68,9 @@ class UserController extends Controller
                 if($role)
                 {
                     $servicelogin = new AdminController();
+                    Session::put('adminID',$result->getId());
                     
-                    $a = $servicelogin->JobOpening($request);
+                    $a = $servicelogin->findAllJobs();
                     return $a;
                 }
                 else
@@ -170,9 +173,10 @@ class UserController extends Controller
         $group = new SecurityService();
         
         $result = $group->viewGroup($groupID);
+        $userid = Session::get('userid');
         
         if ($result){
-            return view('viewGroup')->with('users',$result)->with('gID',$groupID);
+            return view('viewGroup')->with('users',$result)->with('gID',$groupID)->with('userid',$userid);
         } else {
             return view('viewGroup')->with('msg',"There are no users in this group yet!")->with('gID',$groupID);
         }

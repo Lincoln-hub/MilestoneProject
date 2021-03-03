@@ -29,8 +29,6 @@
     width: 50%;
     height: 96%;
     }
-    
-
     .containerfull {
     border-radius: 25px;
     background: white;
@@ -82,7 +80,7 @@
 </head>
 	
 <body>
-	@include('layouts.header')
+	@include('layouts.adminheader')
 	
 
   <!-- navigation bar ends here -->

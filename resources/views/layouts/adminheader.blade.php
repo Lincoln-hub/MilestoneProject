@@ -24,11 +24,17 @@
 <!--           <li class="nav-item"> -->
 <!--             <a class="nav-link" href="login">Home</a> -->
 <!--           </li> -->
+
           <li class="nav-item">
-            <a class="nav-link" href="portfolio">My Profile</a>
+            <a class="nav-link" href="groups">Groups</a>
           </li>
+          
           <li class="nav-item">
-            <a class="nav-link" href="viewJobs">Jobs</a>
+            <a class="nav-link" href="jobs">Jobs</a>
+          </li>
+
+           <li class="nav-item">
+            <a class="nav-link" href="users">Manage Users</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="logout">Logout</a>

@@ -14,7 +14,7 @@ class SecurityDAO
     private $username = "root";
     private $password = "root";
     private $dbname = "dbmilestone";
-    private $port ="";
+    private $port ='3308';
     private $dbQuery;
     private $dbQuery1;
     
@@ -23,7 +23,7 @@ class SecurityDAO
     public function __construct()
     {
         //create a connection to the database
-        $this->conn = mysqli_connect($this->severname,$this->username,$this->password,$this->dbname);
+        $this->conn = mysqli_connect($this->severname,$this->username,$this->password,$this->dbname,$this->port);
         
         
     }
@@ -472,38 +472,74 @@ class SecurityDAO
         }
     }
     
-    public function createGroup(AffinityModel $group)
-    {
-        if ($this->conn-> connect_errno) {
-            echo "Failed to connect to MySQL: ";
-        }
+//     public function createGroup(AffinityModel $group)
+//     {
+//         if ($this->conn-> connect_errno) {
+//             echo "Failed to connect to MySQL: ";
+//         }
         
-        $this->conn->autocommit(TRUE);
-        try
-        {
+//         $this->conn->autocommit(TRUE);
+//         try
+//         {
             
-            $this->dbQuery = "INSERT INTO `group`
+//             $this->dbQuery = "INSERT INTO `group`
+//                                 (NAME)
+//                                 VALUES
+//                                 ('{$group->getName()}')";   
+//             if(mysqli_query($this->conn,$this->dbQuery))
+//             {
+                
+//                 mysqli_close($this->conn);
+//                 return true;
+//             }
+//             else
+//             {
+                
+//                 mysqli_close($this->conn);
+//                 return false;
+//             }
+            
+//         } catch (Exception $e)
+//         {
+//             echo $e->getMessage();
+//         }
+//     }
+
+public function createGroup(AffinityModel $group)
+{
+    
+    if ($this->conn-> connect_errno) {
+        echo "Failed to connect to MySQL: ";
+    }
+    
+    $this->conn->autocommit(TRUE);
+    try
+    {
+        
+        $this->dbQuery = "INSERT INTO `group`
                                 (NAME)
                                 VALUES
-                                ('{$group->getName()}')";   
-            if(mysqli_query($this->conn,$this->dbQuery))
-            {
-                
-                mysqli_close($this->conn);
-                return true;
-            }
-            else
-            {
-                
-                mysqli_close($this->conn);
-                return false;
-            }
-            
-        } catch (Exception $e)
+                                ('{$group->getName()}')";
+        
+        
+        if(mysqli_query($this->conn,$this->dbQuery))
         {
-            echo $e->getMessage();
+            
+            mysqli_close($this->conn);
+            return true;
         }
+        else
+        {
+            
+            mysqli_close($this->conn);
+            return false;
+        }
+        
+    } catch (Exception $e)
+    {
+        echo $e->getMessage();
     }
+}
     
     //delete group
     public function deleteGroup($id)

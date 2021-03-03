@@ -174,6 +174,7 @@ class AdminController extends Controller
             return $this->findAllGroups();
         } else {
             echo "There is an issue";
+             
         }        
     }
     

@@ -82,7 +82,7 @@
 </head>
 	
 <body>
-	@include('layouts.header')
+	@include('layouts.loginregister')
 	
 
   <!-- navigation bar ends here -->

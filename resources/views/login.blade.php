@@ -1,4 +1,4 @@
-@extends('layouts.appmaster')
+@extends('layouts.lrappmaster')
 @section('title', 'Login Page')
 
 @section('content')

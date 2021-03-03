@@ -1,7 +1,8 @@
-@extends('layouts.appmaster') @section('title','HomePage')
+@if (Session::has('adminID'))
+@extends('layouts.adminappmaster') @section('title','HomePage')
 
 @section('content')
- <a href="logout">Log out</a>
+
 <div class="containerfull">
 	
 	
@@ -60,3 +61,7 @@
         ?>
 </div>
 @endsection
+@else
+    <script>window.location.href = 'login';</script>
+
+@endif

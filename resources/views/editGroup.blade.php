@@ -1,4 +1,4 @@
-@extends('layouts.appmaster')
+@extends('layouts.adminappmaster')
 
 @section('title','login')
 

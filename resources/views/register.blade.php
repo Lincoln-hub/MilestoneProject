@@ -1,8 +1,9 @@
-@extends('layouts.appmaster')
+@extends('layouts.lrappmaster')
 @section('title', 'Login Page')
 
 @section('content')
-<div class ="container">
+
+<div align="center" class ="container">
     <form action="Register" method="post">
     <h2 align="center">Register</h2>
     <input type = "hidden" name = "post">
