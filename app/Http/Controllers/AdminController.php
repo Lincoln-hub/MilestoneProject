@@ -138,7 +138,7 @@ class AdminController extends Controller
         
         //return results accordingly
         if ($results != null){
-            return view('job')->with('jobs', $results);
+            return view('job');
         } else {
             return view('job')->with('msg','There are no Jobs yet.');
         }
@@ -153,7 +153,7 @@ class AdminController extends Controller
         
         //return results accordingly
         if ($results != null){
-            return view('jobUsers')->with('jobs', $results);
+            return view('jobUsers');
         } else {
             return view('jobUsers')->with('msg','There are no Jobs yet.');
         }

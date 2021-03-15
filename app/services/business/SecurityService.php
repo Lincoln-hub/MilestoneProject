@@ -183,4 +183,19 @@ class SecurityService
         
         return $this->group->removeFromGroup($groupID, $userID);
     }
+    
+    //searches a job
+    public function searchJob($job)
+    {
+        $this->jobs   = new SecurityDAO();
+        return $this->jobs->searchJob($job);
+    }
+    
+    //function to get information of a job form the databse
+    public function jobDetails($id)
+    {
+        $this->job   = new SecurityDAO();
+        
+        return $this->job->jobDetails($id);
+    }
 }

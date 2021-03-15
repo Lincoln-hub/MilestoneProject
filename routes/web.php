@@ -72,6 +72,11 @@ Route::post('createGroup','AdminController@createGroup');
 Route::post('deleteGroup','AdminController@deleteGroup');
 Route::post('editGroup','AdminController@updateGroupView');
 Route::post('editTheGroup','AdminController@updateGroup');
+Route::post('searchJob','UserController@searchJob');
+Route::get('searchJob','UserController@jobDetails');
+
+Route::get('jobDetails','UserController@jobDetails');
+Route::post('jobDetails','UserController@jobDetails');
 
 
 

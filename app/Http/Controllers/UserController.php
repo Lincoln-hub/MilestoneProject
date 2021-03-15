@@ -70,7 +70,7 @@ class UserController extends Controller
                     $servicelogin = new AdminController();
                     Session::put('adminID',$result->getId());
                     
-                    $a = $servicelogin->JobOpening($request);
+                    $a = $servicelogin->findAllJobs();
                     return $a;
                 }
                 else
@@ -200,6 +200,31 @@ class UserController extends Controller
         }
     }
     
+    public function searchJob(Request $request)
+    {
+        $this->jobs   = new SecurityService();
+        $results = $this->jobs->searchJob($request->get('jobName'));
+        
+        if ($results != null){
+            return view('jobUsers')->with('jobs',$results);
+        } else {
+            return view('jobUsers')->with('msg',"There are no users in this group yet!");
+        }
+    }
+    
+    public function jobDetails(Request $request)
+    {
+         
+    
+       $this->jobs   = new SecurityService();
+       $results = $this->jobs->jobDetails($_GET['jobid_']);
+        
+        if ($results != null){
+            return view('jobDescription')->with('job',$results);
+        } else {
+            return view('jobDescription')->with('msg',"There are no users in this group yet!");
+        }
+    }
     
     //logs out the user
     public function logout(Request $request)

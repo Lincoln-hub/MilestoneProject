@@ -48,11 +48,7 @@ class SecurityDAO
                 $resultUser = $result->fetch_object();
                 $returnedUser = new User($resultUser->ID, $resultUser->FIRSTNAME, $resultUser->LASTNAME,$resultUser->USERNAME, $resultUser->AGE, $resultUser->EMAIL, $resultUser->PASSWORD,$resultUser->ROLE);
                 return $returnedUser;
-                
-                /* $resultUser =
-                 mysqli_free_result($result);
-                 mysqli_close($this->conn);
-                 return true;*/
+              
             }
             else
             {
@@ -438,6 +434,7 @@ class SecurityDAO
         }
     }
     
+    //returns a users portfolio
     public function findPortfolio($id)
     {
         try
@@ -472,6 +469,7 @@ class SecurityDAO
         }
     }
     
+    //create a group 
     public function createGroup(AffinityModel $group)
     {
         if ($this->conn-> connect_errno) {
@@ -548,6 +546,7 @@ class SecurityDAO
         }
     }
     
+    //returns users in a chosen group 
     public function viewGroup($groupID)
     {
         if ($this->conn-> connect_errno) {
@@ -586,7 +585,7 @@ class SecurityDAO
         }
     }
     
-    
+    //return all the groups
     public function findAllGroups()
     {
         if ($this->conn-> connect_errno) {
@@ -619,6 +618,7 @@ class SecurityDAO
         }
     }
     
+    //for the user add themesleves to  a group
     public function  addToGroup($groupID,$userID)
     {
         //convert IDs to ints
@@ -673,5 +673,81 @@ class SecurityDAO
         } catch (Exception $e2) {
             throw $e2;
         }
+    }
+    
+    //function to search a job from the databse
+    public function searchJob($job)
+    {
+        try
+        {
+            
+            if ($this->conn-> connect_errno) {
+                echo "Failed to connect to MySQL: ";
+            }
+            
+            
+            $this->dbQuery = "SELECT * FROM job WHERE DESCRIPTION LIKE '%$job%' ";
+            //if the selected query returns a resultset
+            $result = mysqli_query($this->conn,$this->dbQuery);
+            
+            //$result->execute();
+            
+            if(mysqli_num_rows($result) >0)
+            {
+                
+                return  $result;
+            }
+            else
+            {
+                mysqli_free_result($result);
+                mysqli_close($this->conn);
+                return false;
+            }
+        } catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+        
+    }
+    
+    
+    //function to get information of a job form the databse
+    public function jobDetails($id)
+    {
+       
+        try
+        {
+            
+            if ($this->conn-> connect_errno) {
+                echo "Failed to connect to MySQL: ";
+            }
+            
+            
+            $this->dbQuery = $this->conn->prepare("SELECT * FROM job WHERE ID = ?");
+            
+            $jobid = (int)$id;
+            $this->dbQuery->bind_param("i", $jobid); // 's' specifies the variable type => 'int'
+            
+            $this->dbQuery->execute();
+            
+            $result = $this->dbQuery->get_result();
+            
+            
+            if(mysqli_num_rows($result) >0)
+            {
+                
+                return  $result;
+            }
+            else
+            {
+                mysqli_free_result($result);
+                mysqli_close($this->conn);
+                return false;
+            }
+        } catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+        
     }
 }
