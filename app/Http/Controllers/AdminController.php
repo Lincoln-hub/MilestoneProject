@@ -51,13 +51,12 @@ class AdminController extends Controller
     //deletes the user and returns the Manage users page
     public function deleteUser(Request $request)
     {
-        //request all songs from bs and dao
+        //request delete a user from bs and dao
         $users = new SecurityService();
         $id = $request->input('userid');
         $users->deleteUser($id);
        
-        $a = $this->ManageUsers($request);
-        return $a;
+        return $this->ManageUsers($request);
       
     }
     
@@ -138,7 +137,7 @@ class AdminController extends Controller
         
         //return results accordingly
         if ($results != null){
-            return view('job');
+            return view('job')->with('jobs', $results);
         } else {
             return view('job')->with('msg','There are no Jobs yet.');
         }

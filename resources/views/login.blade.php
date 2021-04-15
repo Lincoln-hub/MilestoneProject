@@ -4,22 +4,30 @@
 @section('content')
 <div align="center">
 <div class ="container">
+<div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Login') }}</div>
+
+<div class =class="card-body">
     <form action="login" method = "post">
     <input type = "hidden" name = "_token" value = "<?php echo csrf_token() ?>"/>
-        <div>
-            <h2 align="center">Login</h2>
+      
+        <div class="col-md-6">
+        <br/>
+           <!--  Username: 
+            <input type="text" placeholder="Enter Username" name="login_name"></input>--> 
+            <input  type="text" placeholder="Enter Username" class="form-control" name="login_name"  autofocus>
         </div>
-        <div>
-            Username: 
-            <input type="text" placeholder="Enter Username" name="login_name"></input>
-        </div>
-        <div>
+        <div class="col-md-6">
             <br/>
-            Password:
+           <!--   Password:
             <input type="password" placeholder="Enter Password" name="login_password"></input>
+            <div class="col-md-6"> -->
+           <input id="password" type="password" placeholder="Enter Password" class="form-control @error('password') is-invalid @enderror" name="login_password" required autocomplete="current-password">
         </div>
         <div>
-            <button type="submit" name="login">Login</button>
+            <button type="submit" class="btn btn-primary"name="login">Login</button>
         </div>
     </form>
      <?php
@@ -28,6 +36,9 @@
         }
         ?>
     <p align="center" id="register">If you do not have an account, click <a href="reg"> here</a> to register first</p>
+    </div>
+</div>
+</div>
 </div>
 </div>
 @endsection

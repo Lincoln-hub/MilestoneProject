@@ -116,6 +116,7 @@ class SecurityDAO
             
             
             $this->dbQuery = "SELECT * FROM user";
+            
             //if the selected query returns a resultset
             $result = mysqli_query($this->conn,$this->dbQuery);
             
@@ -177,7 +178,7 @@ class SecurityDAO
     public function deleteUser($id)
     {
         try {
-            // delete song based on id
+            // delete user based on id
             $this->dbQuery = "DELETE FROM user WHERE ID = $id ";
             
             
@@ -509,10 +510,10 @@ class SecurityDAO
     public function deleteGroup($id)
     {
         try {
-            // delete song based on id
-            $this->dbQuery = "DELETE FROM `group` WHERE ID = $id ";
+            // delete group based on id
+            $this->dbQuery = " DELETE FROM `group` WHERE ID = $id ";
             
-            
+         
             $result = mysqli_query($this->conn,$this->dbQuery);
             // return bool if row was deleted
             return $result;
