@@ -1,9 +1,11 @@
 <?php
+//Authors: Lincoln Munago, Adrian.
 namespace App\Http\Models;
 
 class User
 {
   
+    //properties
     private $id;
     
     private $firstName;
@@ -21,7 +23,7 @@ class User
     private $role;
     
   
-
+    //parameterized constructor
     public function __construct($id,$firstName,$lastName,$username,$age,$email,$password,$role){
        
         $this->id = $id;
@@ -35,6 +37,7 @@ class User
     }
     
  
+    //getters and setters for properties
     
     /**
      * @return mixed

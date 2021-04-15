@@ -1,14 +1,18 @@
 <?php
+//Authors: Lincoln Munago, Adrian.
 namespace App\Http\Models;
 
 class Portfolio
 {
+    //properties  for portfolio model
     private $education;
     private $workHistory;
     private $skills;
     private $userid;
     
     
+    
+    //getters and setters for model properties
     /**
      * @return mixed
      */

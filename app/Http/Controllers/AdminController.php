@@ -1,5 +1,5 @@
 <?php
-
+//Author: Lincoln Munago, Adrian  
 namespace App\Http\Controllers;
 use App\Http\Models\AffinityModel;
 use App\Http\Models\Jobs;
@@ -147,7 +147,22 @@ class AdminController extends Controller
     //return all the jobs in the database
     public function findAllJob()
     {
-        //request all songs from bs and dao
+        
+        $jobs = new SecurityService();
+        $results = $jobs->findAllJobs();
+        
+        //return results accordingly
+        if ($results != null){
+            return view('jobs')->with('jobs', $results);
+        } else {
+            return view('jobs')->with('msg','There are no Jobs yet.');
+        }
+    }
+    
+    //return all the jobs in the database
+    public function SearchAllJob()
+    {
+        
         $jobs = new SecurityService();
         $results = $jobs->findAllJobs();
         
@@ -158,7 +173,6 @@ class AdminController extends Controller
             return view('jobUsers')->with('msg','There are no Jobs yet.');
         }
     }
-    
     //create a new group
     public function createGroup(Request $request)
     {

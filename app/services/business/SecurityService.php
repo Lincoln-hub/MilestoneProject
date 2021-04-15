@@ -1,4 +1,5 @@
 <?php 
+//Authors: Lincoln Munago, Adrian.
 namespace App\services\business;
 
 use App\Http\Models\AffinityModel;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpKernel\EventListener\SaveSessionListener;
 
 class SecurityService
 {
+    // model prpoerties
     private $verifyCred;
     private $reg;
     private $users;

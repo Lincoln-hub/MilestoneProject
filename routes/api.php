@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use App\Http\Controllers\UsersRestController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//API routes
+Route::get('/jobs', 'UsersRestController@getJobs');
+Route::get('/portfolio/{id}', 'UsersRestController@getPortfolio');
+Route::get('/job/{id}', 'UsersRestController@getJob');

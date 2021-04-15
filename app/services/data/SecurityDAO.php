@@ -1,4 +1,5 @@
 <?php
+//Authors: Lincoln Munago, Adrian.
 namespace App\services\data;
 use Carbon\Exceptions\Exception;
 use Illuminate\Support\Facades\DB;
@@ -373,7 +374,7 @@ class SecurityDAO
             }
             
             
-            $this->dbQuery = "SELECT * FROM job";
+            $this->dbQuery = "SELECT * FROM `job`";
             //if the selected query returns a resultset
             $result = mysqli_query($this->conn,$this->dbQuery);
             
@@ -726,7 +727,7 @@ class SecurityDAO
             $this->dbQuery = $this->conn->prepare("SELECT * FROM job WHERE ID = ?");
             
             $jobid = (int)$id;
-            $this->dbQuery->bind_param("i", $jobid); // 's' specifies the variable type => 'int'
+            $this->dbQuery->bind_param("i", $jobid); // 'i' specifies the variable type => 'int'
             
             $this->dbQuery->execute();
             

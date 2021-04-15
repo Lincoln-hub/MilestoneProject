@@ -59,7 +59,7 @@ Route::post('editJob','AdminController@updateTheJob');
 Route::post('deleteJob','AdminController@deleteJob');
 
 
-Route::get('viewJobs','AdminController@findAllJob');
+Route::get('viewJobs','AdminController@searchAllJob');
 Route::get('toJobs','AdminController@findAllJob');
 Route::get('portfolio','UserController@findPortfolio');
 Route::post('port','UserController@Portfolio');
@@ -78,5 +78,13 @@ Route::get('searchJob','UserController@jobDetails');
 Route::get('jobDetails','UserController@jobDetails');
 Route::post('jobDetails','UserController@jobDetails');
 
+//API routes 
+Route::resource('/usersrest', 'UsersRestController');
+
+Route::get('/usersrest', 'UsersRestController@getJobs');
+
+Route::get('/usersrest/{id}', 'UsersRestController@getPortfolio');
+
+//Route::get('users',[UsersRestController::class],'getUsers');
 
 

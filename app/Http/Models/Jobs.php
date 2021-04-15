@@ -1,4 +1,5 @@
 <?php
+//Authors: Lincoln Munago, Adrian.
 namespace App\Http\Models;
 
 class Jobs
@@ -6,11 +7,14 @@ class Jobs
     private $id;
     private $jobDescription;
     
+    //parameterized constructor
     public function __construct($id,$jobdescription)
     {
         $this->id = $id;
         $this->jobDescription =$jobdescription;
     }
+    
+    //gettters and setters for model properties
     
     public function getId()
     {
