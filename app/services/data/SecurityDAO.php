@@ -11,10 +11,10 @@ class SecurityDAO
 {
     //Define the connection string
     private $conn;
-    private $severname = "localhost";
-    private $username = "root";
-    private $password = "root";
-    private $dbname = "dbmilestone";
+    private $severname = "grp6m5lz95d9exiz.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
+    private $username = "srqd6eli2zlg622i";
+    private $password = "zu2bak2yatl6vo58";
+    private $dbname = "o65icgsloypbwlno";
     private $port ="";
     private $dbQuery;
     private $dbQuery1;
