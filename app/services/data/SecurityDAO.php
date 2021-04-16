@@ -182,11 +182,11 @@ class SecurityDAO
             $this->dbQuery = " DELETE FROM portfolio WHERE USERID = $id ";
             mysqli_query($this->conn,$this->dbQuery);
             
+            $this->dbQuery = " DELETE FROM groupuser WHERE USERID = $id ";
+            mysqli_query($this->conn,$this->dbQuery);
             
             
             $this->dbQuery = " DELETE FROM user WHERE ID = $id ";
-            
-         
             $result = mysqli_query($this->conn,$this->dbQuery);
             // return true if row was deleted
             if($result)
