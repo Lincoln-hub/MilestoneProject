@@ -183,8 +183,14 @@ class SecurityDAO
             
             
             $result = mysqli_query($this->conn,$this->dbQuery);
-            // return bool if row was deleted
-            return $result;
+            // return true if row was deleted
+            if($result)
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
         } catch (Exception $e2) {
             throw $e2;
         }
@@ -358,7 +364,13 @@ class SecurityDAO
             
             $result = mysqli_query($this->conn,$this->dbQuery);
             // return bool if row was deleted
-            return $result;
+            if($result)
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
         } catch (Exception $e2) {
             throw $e2;
         }
@@ -485,7 +497,11 @@ class SecurityDAO
             $this->dbQuery = "INSERT INTO `group`
                                 (NAME)
                                 VALUES
+
                                 ('{$group->getName()}')";
+
+                               
+
             
             if(mysqli_query($this->conn,$this->dbQuery))
             {
@@ -516,7 +532,13 @@ class SecurityDAO
          
             $result = mysqli_query($this->conn,$this->dbQuery);
             // return bool if row was deleted
-            return $result;
+            if($result)
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
         } catch (Exception $e2) {
             throw $e2;
         }

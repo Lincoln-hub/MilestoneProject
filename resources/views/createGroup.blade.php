@@ -1,5 +1,9 @@
 @if (Session::has('adminID'))
+
 @extends('layouts.adminappmaster')
+
+
+
 
 @section('title','Login')
 

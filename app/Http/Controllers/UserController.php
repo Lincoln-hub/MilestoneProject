@@ -79,9 +79,15 @@ class UserController extends Controller
         $this->logger->info("Entering UserController.login()");
         try {
             //flush session
+
             // $request->session()->flush();
             //Session::flush();
             
+
+           // $request->session()->flush();
+            //Session::flush();
+           
+
             $credentials = new User(null,null, null, $request->get('login_name'), null, null, $request->get('login_password'),null);
             
             
