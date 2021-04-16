@@ -179,9 +179,14 @@ class SecurityDAO
     {
         try {
             // delete user based on id
-            $this->dbQuery = "DELETE FROM user WHERE ID = $id ";
+            $this->dbQuery = " DELETE FROM portfolio WHERE USERID = $id ";
+            mysqli_query($this->conn,$this->dbQuery);
             
             
+            
+            $this->dbQuery = " DELETE FROM user WHERE ID = $id ";
+            
+         
             $result = mysqli_query($this->conn,$this->dbQuery);
             // return true if row was deleted
             if($result)
